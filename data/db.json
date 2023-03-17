@@ -1,0 +1,92 @@
+{
+    "products": [
+        {
+            "ProductName": "Product 1",
+            "price": "15",
+            "imgName": "shoe (1).jpg",
+            "id": 1,
+            "desc": "",
+            "category": "shoes"
+        },
+        {
+            "ProductName": "Product 2",
+            "price": "20",
+            "imgName": "shoe (2).jpg",
+            "id": 2,
+            "desc": "",
+            "category": "shoes"
+        },
+        {
+            "ProductName": "Product 3",
+            "price": "30",
+            "imgName": "shoe (3).jpg",
+            "id": 3,
+            "desc": "",
+            "category": "shoes"
+        },
+        {
+            "ProductName": "Product 3",
+            "price": "30",
+            "imgName": "shoe (4).jpg",
+            "id": 3,
+            "desc": "",
+            "category": "shoes"
+        },
+        {
+            "ProductName": "Product 3",
+            "price": "30",
+            "imgName": "cloth (1).jpeg",
+            "id": 3,
+            "desc": "",
+            "category": "clothes"
+        },
+        {
+            "ProductName": "Product 3",
+            "price": "30",
+            "imgName": "cloth (2).jpg",
+            "id": 3,
+            "desc": "",
+            "category": "clothes"
+        },
+        {
+            "ProductName": "Product 3",
+            "price": "30",
+            "imgName": "cloth (3).png",
+            "id": 3,
+            "desc": "",
+            "category": "clothes"
+        },
+        {
+            "ProductName": "Bols",
+            "price": "15.00",
+            "imgName": "other 1.jpg",
+            "id": 3,
+            "desc": "Not rapid guys, ni sip & pass",
+            "category": "other"
+        },
+        {
+            "ProductName": "Bols",
+            "price": "15.00",
+            "imgName": "other 2.jpg",
+            "id": 3,
+            "desc": "Not rapid guys, ni sip & pass",
+            "category": "other"
+        },
+        {
+            "ProductName": "Bols",
+            "price": "15.00",
+            "imgName": "other 3.jpg",
+            "id": 3,
+            "desc": "Not rapid guys, ni sip & pass",
+            "category": "other"
+        },
+        {
+            "ProductName": "Bols",
+            "price": "15.00",
+            "imgName": "other 4.jpg",
+            "id": 3,
+            "desc": "Not rapid guys, ni sip & pass",
+            "category": "other"
+        }
+    ]
+}
