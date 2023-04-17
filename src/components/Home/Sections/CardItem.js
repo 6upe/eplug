@@ -14,6 +14,7 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import Button from '@mui/material/Button';
 
 import { makeStyles } from '@material-ui/core';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 const useStyles = makeStyles({
   cardItem: {
@@ -21,9 +22,17 @@ const useStyles = makeStyles({
   }
 });
 
-export default function RecipeReviewCard({ productName, price, imgName, desc }) {
+
+export default function RecipeReviewCard({id, productName, price, imgName, desc, isAdmin, handleClick }) {
   const productPrice = "K " + price;
   const classes = useStyles();
+  const product = {id, productName, price };
+
+  function addToCart(productClicked) {
+    // handleClick(productClicked.productName);
+    // console.log(productClicked.id + " Added to Cart")
+  }
+   
 
   return (
     <div className={classes.cardItem}>
@@ -49,21 +58,47 @@ export default function RecipeReviewCard({ productName, price, imgName, desc }) 
             {desc}
           </Typography>
         </CardContent>
-        <CardActions disableSpacing style={{display: 'flex', justifyContent: 'space-between'}}>
-          <div>
-            <IconButton aria-label="add to favorites">
+        <CardActions disableSpacing style={{ display: 'flex', justifyContent: 'space-between' }}>
+          
+
+          {isAdmin === true ? 
+          <>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <IconButton aria-label="add to favorites">
             <FavoriteIcon />
           </IconButton>
           <IconButton aria-label="share">
             <ShareIcon />
           </IconButton>
-          </div>
-          
-          <IconButton aria-label="buy">
-            <Button variant="outlined" color="success" endIcon={<AddShoppingCartIcon />}>
-              Buy
+        </div>
+          <IconButton aria-label="buy" onClick={() => handleClick(product)}>
+            <Button variant="outlined" color="error" endIcon={<DeleteForeverIcon />}>
+              Delete
             </Button>
           </IconButton>
+          </>
+          
+
+        : 
+        <>
+          <div>
+          <IconButton aria-label="add to favorites">
+            <FavoriteIcon />
+          </IconButton>
+          <IconButton aria-label="share">
+            <ShareIcon />
+          </IconButton>
+        </div>
+        <IconButton aria-label="buy" onClick={() => handleClick(product)}>
+            <Button variant="outlined" color="success" endIcon={<AddShoppingCartIcon />}>
+              Add
+            </Button>
+          </IconButton>
+
+        </>
+        }
+
+          
         </CardActions>
 
       </Card>

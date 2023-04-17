@@ -6,25 +6,30 @@ import AppBarComponent from './components/Home/Sections/AppBarComponent'
 import {AllProducts} from './components/Home/AllProducts';
 import AdminDashboard from './components/Admin/AdminDashboard'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import ImageUploader from './components/Admin/ImageUploader';
 
 function App() {
   return (
     <Router>
-      <AppBarComponent></AppBarComponent>
+      
       <Switch>
         <Route exact path="/">
+          <AppBarComponent></AppBarComponent>
           <MainPage></MainPage>
         </Route>
-        <Route  path="/signin">
+        <Route exact path="/:userId">
+          <MainPage></MainPage>
+        </Route>
+        <Route exact path="/auth/signin">
+          <AppBarComponent></AppBarComponent>
           <SignIn></SignIn>
         </Route>
-        <Route path="/signup">
+        <Route path="/auth/signup">
+          <AppBarComponent></AppBarComponent>
           <SignUp></SignUp>
         </Route>
-        <Route  path="/allproducts">
-          <AllProducts></AllProducts>
-        </Route>
-        <Route  path="/admin">
+        <Route exact path="/signin/admin">
+          <AppBarComponent></AppBarComponent>
           <AdminDashboard></AdminDashboard>
         </Route>
       </Switch>

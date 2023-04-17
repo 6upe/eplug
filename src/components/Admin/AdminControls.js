@@ -21,35 +21,31 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function ResponsiveGrid() {
+    let isAdmin = true;
     return (
         <>
-        
-        <Box sx={{ flexGrow: 1}} style={{display: 'flex', justifyContent: 'center'}}>
-            
-            <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                
+
+            <Box sx={{ flexGrow: 1 }} style={{}}>
+
+                <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+
                     <Grid item xs={11} sm={11} md={4}>
                         <Card sx={{ maxWidth: 345 }}>
                             <AddProduct></AddProduct>
                         </Card>
                     </Grid>
-
-                    <Grid item xs={11} sm={11} md={4}>
-                        <Card sx={{ maxWidth: 345 }}>
-                            <DeleteProduct></DeleteProduct>
+                    
+                    <Grid item xs={11} sm={11} md={8} >
+                        <Card >
+                        <DeleteProduct isAdmin={isAdmin}></DeleteProduct>
                         </Card>
                     </Grid>
+                </Grid>
 
-                    <Grid item xs={11} sm={11} md={4}>
-                        <Card sx={{ maxWidth: 345 }}>
-                            <UpdateProduct></UpdateProduct>
-                        </Card>
-                    </Grid>
-               
-            </Grid>
-        </Box>
-
+                
+            </Box>
+            
         </>
-        
+
     );
 }

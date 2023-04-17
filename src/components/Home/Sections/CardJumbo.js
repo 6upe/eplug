@@ -28,7 +28,7 @@ const useStyles = makeStyles({
     }
 });
 
-export default function ImgMediaCard() {
+export default function ImgMediaCard({firstname, isLogged}) {
     const classes = useStyles();
     return (
         <div className={classes.Jumbotron}>
@@ -45,8 +45,8 @@ export default function ImgMediaCard() {
                 />
                 <div className={classes.JumboCardContent}>
                     <CardContent >
-                        <Typography style={{fontWeight: 'bold', color: '#2e7d32'}} gutterBottom variant="h4" component="div">
-                            Welcome to the [ePlug]
+                        <Typography style={{fontWeight: 'bold', color: '#2e7d32'}} gutterBottom variant="h6" component="div">
+                          {isLogged && <> Hi {firstname}</>} <br /> Welcome to the [ePlug]
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
                             Our products and services will give you small eyes, big Smiles

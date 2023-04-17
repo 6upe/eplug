@@ -12,9 +12,13 @@ import Fab from '@mui/material/Fab';
 import { green } from '@mui/material/colors';
 import Box from '@mui/material/Box';
 import InventoryIcon from '@mui/icons-material/Inventory';
-
+import Button from '@mui/material/Button';
 import Grid from '@material-ui/core/Grid';
 import CardItem from './CardItem';
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+
 
 
 function TabPanel(props) {
@@ -61,9 +65,50 @@ const fabGreenStyle = {
   },
 };
 
-export default function FloatingActionButtonZoom({products}) {
+
+export default function FloatingActionButtonZoom({ isLogged, setClicked, setcartItemsProduct }) {
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
+  const [productImagePath, setProductImagePath] = React.useState('')
+
+  // GETTING PRODUCTS
+  const [products, setProducts] = useState('');
+
+
+  useEffect(() => {
+    fetch('http://localhost:8000/products')
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        console.log(data);
+        setProducts(data);
+      });
+  }, []);
+
+  const [openSnackbar, setOpenSnackbar] = useState(null);
+  const [productOnSnack, setProductOnSnack] = useState('');
+
+  function addToCartProducts(product) {
+    setClicked(true);
+    setOpenSnackbar(true);
+    console.log(product.productName + " was clicked");
+    handleSnackClick(product.productName);
+    let newProductSum = (1 * product.price);
+
+    let newCartObject = {
+      productId: product.id,
+      productDesc: product.productName,
+      productQty: 1,
+      productPrice: product.price,
+      productSum: newProductSum
+    };
+
+    setcartItemsProduct(newCartObject);
+      
+  }
+  // END OF GETTING PRODUCTS
+
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -98,6 +143,44 @@ export default function FloatingActionButtonZoom({products}) {
       label: 'Expand',
     },
   ];
+
+  // SNACK BAR FUNCTIONS START
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleSnackClick = (productName) => {
+    setOpen(true);
+    console.log(productName + " snack bar open");
+    setProductOnSnack(productName);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <Button color="secondary" size="small" onClick={handleClose}>
+        UNDO
+      </Button>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
+  // SNACK BAR FUNCTIONS END
+
+
 
   return (
     <Box
@@ -136,44 +219,72 @@ export default function FloatingActionButtonZoom({products}) {
         index={value}
         onChangeIndex={handleChangeIndex}
       >
+
         <TabPanel value={value} index={0} dir={theme.direction}>
           <Grid container>
-            {
+            {products &&
 
-              products.filter(product => product.category === 'shoes').map(product => (
-                <Grid xs={12} sm={6} md={3} key={product.id} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                  <CardItem productName={product.ProductName} price={product.price} imgName={product.imgName} desc={product.desc}>
-                  </CardItem>
-                </Grid>
-              ))
+              products.filter(product => product.category === 'shoes')
+                .slice(-4)
+                .reverse()
+                .map(product => (
+                  <Grid xs={12} sm={6} md={3} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <CardItem
+                      key={product.id}
+                      id={product.id}
+                      productName={product.ProductName}
+                      price={product.price}
+                      imgName={product.imgName}
+                      desc={product.desc}
+                      isLogged={isLogged}
+                      // handleClick={() => handleClick(product.id)}
+                      handleClick={addToCartProducts}
+                    >
+                    </CardItem>
+
+                    {/* <CartSnackbar productName={product.ProductName} openSnackbar={openSnackbar}></CartSnackbar> */}
+                  </Grid>
+                ))
 
             }
           </Grid>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <Grid container>
-            {
 
-              products.filter(product => product.category === 'clothes').map(product => (
-                <Grid xs={12} sm={6} md={3} key={product.id}>
-                  <CardItem productName={product.ProductName} price={product.price} imgName={product.imgName} desc={product.desc}>
-                  </CardItem>
-                </Grid>
-              ))
+
+          <Grid container>
+            {products &&
+
+              products.filter(product => product.category === 'clothes')
+                .slice(-4)
+                .reverse()
+                .map(product => (
+                  <>
+                    <Grid xs={12} sm={6} md={3} key={product.id} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      <CardItem handleClick={addToCartProducts} productName={product.ProductName} price={product.price} imgName={product.imgName} desc={product.desc}>
+                      </CardItem>
+                    </Grid>
+
+                  </>
+                ))
 
             }
           </Grid>
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           <Grid container>
-            {
+            {products &&
 
-              products.filter(product => product.category === 'other').map(product => (
-                <Grid xs={12} sm={6} md={3} key={product.id}>
-                  <CardItem productName={product.ProductName} price={product.price} imgName={product.imgName} desc={product.desc}>
-                  </CardItem>
-                </Grid>
-              ))
+              products.filter(product => product.category === 'others')
+                .slice(-4)
+                .reverse()
+                .map(product => (
+                  <Grid xs={12} sm={6} md={3} key={product.id} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <CardItem handleClick={addToCartProducts} productName={product.ProductName} price={product.price} imgName={product.imgName} desc={product.desc}>
+                    </CardItem>
+
+                  </Grid>
+                ))
 
             }
           </Grid>
@@ -194,6 +305,19 @@ export default function FloatingActionButtonZoom({products}) {
           </Fab>
         </Zoom>
       ))}
+
+      {/* // SNACKBAR START */}
+
+      {/* <Button onClick={() => handleSnackClick(product.productName)}>Open simple snackbar</Button> */}
+      <Snackbar
+        open={open}
+        autoHideDuration={2000}
+        onClose={handleClose}
+        message={productOnSnack + ' added to Cart'}
+        action={action}
+      />
+
+      {/* // SNACKBAR END */}
     </Box>
   );
 }

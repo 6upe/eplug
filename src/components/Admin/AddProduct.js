@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -33,13 +34,53 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignIn() {
-    const handleSubmit = (event) => {
+    const [ProductName, setProductName] = useState('');
+    const [price, setprice] = useState('');
+    const [category, setcategory] = useState('');
+    const [desc, setdesc] = useState('');
+    const [imgName, setImgName] = useState('');
+
+    const addProduct = (event) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
+        const product = { ProductName, price, imgName, desc, category };
+
+
+        fetch('http://localhost:8000/products', {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(product)
+        }).then(() => {
+            console.log('New product added!');
+            handleFileUpload();
         });
+
+    };
+
+
+    const [selectedFile, setSelectedFile] = useState(null);
+
+    const handleFileSelect = (event) => {
+        setSelectedFile(event.target.files[0]);
+        const file = event.target.files[0].name;
+        setImgName(file);
+        console.log(file);
+
+    };
+
+    const handleFileUpload = async () => {
+        try {
+            const formData = new FormData();
+            formData.append('image', selectedFile);
+
+            const response = await fetch('http://localhost:7000/upload', {
+                method: 'POST',
+                body: formData,
+            });
+            
+            console.log(response);
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return (
@@ -61,25 +102,27 @@ export default function SignIn() {
                         Add Product
                     </Typography>
 
-                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                    <Box component="form" onSubmit={addProduct} noValidate sx={{ mt: 1 }}>
                         <TextField
                             margin="normal"
                             required
                             fullWidth
-                            id="productName"
+                            id="ProductName"
                             label="Product Name"
-                            name="productName"
+                            name="ProductName"
                             type="text"
+                            onChange={(e) => setProductName(e.target.value)}
                         />
                         <TextField
                             margin="normal"
                             required
                             fullWidth
-                            id="productPrice"
+                            id="price"
                             label="Product Price"
-                            name="productPrice"
+                            name="price"
                             placeholder='00.00'
                             type="number"
+                            onChange={(e) => setprice(e.target.value)}
                         />
 
                         <Select
@@ -87,6 +130,7 @@ export default function SignIn() {
                             required
                             fullWidth
                             label="Category"
+                            onChange={(e) => setcategory(e.target.value)}
                         >
                             <MenuItem value='shoes'>Shoes</MenuItem>
                             <MenuItem value='clothes'>Clothes</MenuItem>
@@ -100,14 +144,19 @@ export default function SignIn() {
                             multiline
                             fullWidth
                             maxRows={4}
+                            onChange={(e) => setdesc(e.target.value)}
                         />
 
 
                         <TextField
-                            style={{ marginTop: 10, border: 'solid white' }} px
-                            label={<AddPhotoAlternateIcon />}
-                            type="image"
+                            style={{ marginTop: 10, border: 'solid white' }}
+                            type="file"
+                            accept="image/*"
                             fullWidth
+                            onChange={handleFileSelect}
+                            InputProps={{
+                                startAdornment: <AddPhotoAlternateIcon />,
+                            }}
                         />
 
                         <Button
@@ -117,8 +166,8 @@ export default function SignIn() {
                             sx={{ mt: 3, mb: 2 }}
                             style={{ fontWeight: 'bold', fontSize: '17px', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 10 }}
                         >
-
-                            Add Product <AddCircleIcon style={{ marginLeft: 7 }} />
+                            Add Product
+                            <AddCircleIcon style={{ marginLeft: 7 }} />
                         </Button>
                     </Box>
                 </Box>

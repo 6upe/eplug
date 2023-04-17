@@ -1,92 +1,129 @@
 {
-    "products": [
-        {
-            "ProductName": "Product 1",
-            "price": "15",
-            "imgName": "shoe (1).jpg",
-            "id": 1,
-            "desc": "",
-            "category": "shoes"
-        },
-        {
-            "ProductName": "Product 2",
-            "price": "20",
-            "imgName": "shoe (2).jpg",
-            "id": 2,
-            "desc": "",
-            "category": "shoes"
-        },
-        {
-            "ProductName": "Product 3",
-            "price": "30",
-            "imgName": "shoe (3).jpg",
-            "id": 3,
-            "desc": "",
-            "category": "shoes"
-        },
-        {
-            "ProductName": "Product 3",
-            "price": "30",
-            "imgName": "shoe (4).jpg",
-            "id": 3,
-            "desc": "",
-            "category": "shoes"
-        },
-        {
-            "ProductName": "Product 3",
-            "price": "30",
-            "imgName": "cloth (1).jpeg",
-            "id": 3,
-            "desc": "",
-            "category": "clothes"
-        },
-        {
-            "ProductName": "Product 3",
-            "price": "30",
-            "imgName": "cloth (2).jpg",
-            "id": 3,
-            "desc": "",
-            "category": "clothes"
-        },
-        {
-            "ProductName": "Product 3",
-            "price": "30",
-            "imgName": "cloth (3).png",
-            "id": 3,
-            "desc": "",
-            "category": "clothes"
-        },
-        {
-            "ProductName": "Bols",
-            "price": "15.00",
-            "imgName": "other 1.jpg",
-            "id": 3,
-            "desc": "Not rapid guys, ni sip & pass",
-            "category": "other"
-        },
-        {
-            "ProductName": "Bols",
-            "price": "15.00",
-            "imgName": "other 2.jpg",
-            "id": 3,
-            "desc": "Not rapid guys, ni sip & pass",
-            "category": "other"
-        },
-        {
-            "ProductName": "Bols",
-            "price": "15.00",
-            "imgName": "other 3.jpg",
-            "id": 3,
-            "desc": "Not rapid guys, ni sip & pass",
-            "category": "other"
-        },
-        {
-            "ProductName": "Bols",
-            "price": "15.00",
-            "imgName": "other 4.jpg",
-            "id": 3,
-            "desc": "Not rapid guys, ni sip & pass",
-            "category": "other"
-        }
-    ]
+  "products": [
+    {
+      "ProductName": "jordan 3 - black/gray",
+      "price": "750.00",
+      "imgName": "Picture9 FFFFFFF.jpg",
+      "desc": "Black Jordan 3, Size 40",
+      "category": "shoes",
+      "id": 1
+    },
+    {
+      "ProductName": "jordan 3 - Pink",
+      "price": "820.00",
+      "imgName": "NIKE_AIR_JORDAN_3_RETRO_GS_COOL_GREY-wwwwwwEEww.jpg",
+      "desc": "Black Jordan 3, Size 40",
+      "category": "shoes",
+      "id": 2
+    },
+    {
+      "ProductName": "Nike Air Force 1 - High Cut",
+      "price": "850.00",
+      "imgName": "shoe (3).jpg",
+      "desc": "Gray/Black Air Force 1 - High Cut, Size 41",
+      "category": "shoes",
+      "id": 3
+    },
+    {
+      "ProductName": "UV - Air Force 1",
+      "price": "650.00",
+      "imgName": "shoe (1).jpg",
+      "desc": "Rain ball colors, Size 40",
+      "category": "shoes",
+      "id": 4
+    },
+    {
+      "ProductName": "Flannel Long Sleeved",
+      "price": "350.00",
+      "imgName": "cloth (2).jpg",
+      "desc": "Size Medium, Conditioned fabric",
+      "category": "clothes",
+      "id": 5
+    },
+    {
+      "ProductName": "Checked Shirt",
+      "price": "250.00",
+      "imgName": "cloth (1).jpeg",
+      "desc": "Blue Flannel, Size Small, Female",
+      "category": "clothes",
+      "id": 6
+    },
+    {
+      "ProductName": "Black Jeans",
+      "price": "450.00",
+      "imgName": "jeans.png",
+      "desc": "Size 33, Slim fit",
+      "category": "clothes",
+      "id": 7
+    },
+    {
+      "ProductName": "vLad Shirt",
+      "price": "220.00",
+      "imgName": "cloth (3).png",
+      "desc": "vlad checked shirt",
+      "category": "clothes",
+      "id": 8
+    },
+    {
+      "ProductName": "Imperial Blue",
+      "price": "110.00",
+      "imgName": "other 4.jpg",
+      "desc": "blended whiskey",
+      "category": "others",
+      "id": 9
+    },
+    {
+      "ProductName": "Jameson",
+      "price": "350.00",
+      "imgName": "other 3.jpg",
+      "desc": "apa ninshi nimbeula",
+      "category": "others",
+      "id": 10
+    },
+    {
+      "ProductName": "Bols",
+      "price": "18.00",
+      "imgName": "other 1.jpg",
+      "desc": "Wanwa watalala",
+      "category": "others",
+      "id": 11
+    }
+  ],
+  "users": [
+    {
+      "firstname": "Bupe",
+      "lastname": "Katongo",
+      "email": "katongobupe444@gmail.com",
+      "password": "bk123",
+      "id": 1
+    },
+    {
+      "firstname": "Keziah",
+      "lastname": "Mwansa",
+      "email": "mwansakezia18@gmail.com",
+      "password": "kezia123",
+      "id": 2
+    },
+    {
+      "firstname": "Given",
+      "lastname": "Mukwanji",
+      "email": "given@gmail.com",
+      "password": "given123",
+      "id": 3
+    },
+    {
+      "firstname": "Theodora",
+      "lastname": "Shinga",
+      "email": "shingatheodora@gmail.com",
+      "password": "1401",
+      "id": 4
+    },
+    {
+      "firstname": "demo",
+      "lastname": "user",
+      "email": "email@gmail.com",
+      "password": "demo123",
+      "id": 5
+    }
+  ]
 }

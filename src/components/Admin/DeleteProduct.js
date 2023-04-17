@@ -12,6 +12,13 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Products from '../Home/Sections/Products';
+import CardItem from '../Home/Sections/CardItem';
+
+import {useHistory} from 'react-router-dom';
+
+
+
 
 function Copyright(props) {
     return (
@@ -28,69 +35,87 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignIn() {
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
+
+
+export default function DeleteProduct({ isLogged, isAdmin }) {
+
+
+
+
+    // GETTING PRODUCTS
+    const [products, setProducts] = React.useState('');
+
+
+
+    React.useEffect(() => {
+        fetch('http://localhost:8000/products')
+            .then(res => {
+                return res.json();
+            })
+            .then(data => {
+                console.log(data);
+                setProducts(data);
+            });
+    }, []);
+
+    const history = useHistory();
+
+    function deleteFromDB(productObject) {
+        fetch('http://localhost:8000/products/' + productObject.id, {
+          method: 'DELETE',
+        })
+        .then(() => {
+          console.log(productObject.ProductName + ' deleted');
+          window.location.reload(); // reload the current page
+        })
+        .catch(error => {
+          console.error('Error deleting product:', error);
         });
-    };
+      }
+      
+
 
     return (
         <ThemeProvider theme={theme}>
-            <Container component="main" maxWidth="xs">
+            <Container component="main">
                 <CssBaseline />
 
 
                 <Box
                     sx={{
-                        marginTop: 8,
                         display: 'flex',
-                        flexDirection: 'column',
                         alignItems: 'center',
+                        width: '100%'
                     }}
                 >
+                    
+                    <Grid xs={12} sm={6} md={12} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', overflowX: 'scroll' }}>
+                        {products &&
 
-                    <Typography component="h1" variant="h5">
-                       Delete Product
-                    </Typography>
+                            products.reverse()
+                                .map(product => (
 
-                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="email"
-                            label="Email Address"
-                            name="email"
-                            autoComplete="email"
-                            autoFocus
-                        />
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="password"
-                            label="Password"
-                            type="password"
-                            id="password"
-                            autoComplete="current-password"
-                        />
-                        <FormControlLabel
-                            control={<Checkbox value="remember" color="primary" />}
-                            label="Remember me"
-                        />
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
-                        >
-                            Sign In
-                        </Button>
-                    </Box>
+                                    <CardItem
+                                        key={product.id}
+                                        id={product.id}
+                                        productName={product.ProductName}
+                                        price={product.price}
+                                        imgName={"../" + product.imgName}
+                                        desc={product.desc}
+                                        isLogged={isLogged}
+                                        isAdmin={isAdmin}
+                                        // handleClick={() => handleClick(product.id)}
+                                        handleClick={() => deleteFromDB(product)}
+
+                                    >
+                                    </CardItem>
+
+                    
+
+                                ))
+
+                    }
+                    </Grid>
                 </Box>
             </Container>
         </ThemeProvider>

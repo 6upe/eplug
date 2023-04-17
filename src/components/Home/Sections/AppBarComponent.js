@@ -20,6 +20,25 @@ import Link from '@mui/material/Link';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 // import LoginIcon from '@mui/icons-material/Login';
 
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
+// import Table from './Table';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+
+// function ccyFormat(num) {
+//   return `${num.toFixed(2)}`;
+// }
+
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -60,7 +79,33 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+export default function PrimarySearchAppBar({ numOfCartItems, isLogged, firstname, setcartItems, cartItems, cartTotal }) {
+
+  // MODAL FUNCTIONS
+  const [open, setOpen] = React.useState(false);
+  const [scroll, setScroll] = React.useState('paper');
+
+  const handleClickOpen = (scrollType) => () => {
+    setOpen(true);
+    setScroll(scrollType);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const descriptionElementRef = React.useRef(null);
+  React.useEffect(() => {
+    if (open) {
+      const { current: descriptionElement } = descriptionElementRef;
+      if (descriptionElement !== null) {
+        descriptionElement.focus();
+      }
+    }
+  }, [open]);
+
+  // END OF MODAL FUNCTIONS
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -87,9 +132,9 @@ export default function PrimarySearchAppBar() {
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
-    style={{
-      width: '40%'
-    }}
+      style={{
+        width: '40%'
+      }}
       anchorEl={anchorEl}
       anchorOrigin={{
         vertical: 'top',
@@ -104,15 +149,17 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      
-       <Link href="/signin" underline="none" style={{display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 5}}>
-       <LoginIcon/><MenuItem onClick={handleMenuClose} style={{fontWeight: 'bold', color: '#1976d2'}}>Log In</MenuItem>
-        </Link>
-        
-        <Link href="/signup" underline="none" style={{display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 5}}>
-          <PersonAddAltIcon/><MenuItem onClick={handleMenuClose} style={{fontWeight: 'bold', color: '#1976d2'}}>Sign Up</MenuItem>
-        </Link>
-      
+
+      {!isLogged && <Link href="/auth/signin" underline="none" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 5 }}>
+        <LoginIcon /><MenuItem onClick={handleMenuClose} style={{ fontWeight: 'bold', color: '#1976d2' }}>Log In</MenuItem>
+      </Link>}
+      {!isLogged && <Link href="/auth/signup" underline="none" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 5 }}>
+        <PersonAddAltIcon /><MenuItem onClick={handleMenuClose} style={{ fontWeight: 'bold', color: '#1976d2' }}>Sign Up</MenuItem>
+      </Link>}
+      {isLogged && <Link href="/auth/signin" underline="none" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 5 }}>
+        <LoginIcon /><MenuItem onClick={handleMenuClose} style={{ fontWeight: 'bold', color: '#1976d2' }}>Log Out</MenuItem>
+      </Link>}
+
     </Menu>
   );
 
@@ -141,17 +188,19 @@ export default function PrimarySearchAppBar() {
         </IconButton>
         <p>Messages</p>
       </MenuItem>
-      <MenuItem>
+      <MenuItem onClick={handleClickOpen('paper')}>
         <IconButton
           size="large"
           aria-label="show 17 items in cart"
           color="inherit"
         >
-          <Badge badgeContent={17} color="error">
+          <Badge badgeContent={numOfCartItems} color="error">
             <Cart />
           </Badge>
         </IconButton>
-        <p>Cart items</p>
+
+        Cart Items
+
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
@@ -163,13 +212,113 @@ export default function PrimarySearchAppBar() {
         >
           <LoginIcon />
         </IconButton>
-        <p>Log In</p>
+        {!isLogged && <p>Log In</p>}
+        {isLogged && <p>Log Out</p>}
       </MenuItem>
     </Menu>
   );
 
+  function deleteFromCart(cartItems, productId) {
+    let newCartArray = cartItems.slice();
+  
+    for (let i = 0; i < newCartArray.length; i++) {
+      if (newCartArray[i].productId === productId) {
+        newCartArray.splice(i, 1);
+        setcartItems(newCartArray);
+        console.log(newCartArray[i].productDesc + " deleted from cart");
+        console.log(cartItems);
+        break;
+      }
+    }
+  }
+
+
   return (
     <Box sx={{ flexGrow: 1 }}>
+
+      {/* CART MODAL */}
+      <div>
+        {/* <Button onClick={handleClickOpen('paper')}>Cart</Button> */}
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          scroll={scroll}
+          aria-labelledby="scroll-dialog-title"
+          aria-describedby="scroll-dialog-description"
+        >
+          <DialogTitle id="scroll-dialog-title">Hi, {firstname} <b style={{ float: 'right' }}>K {cartTotal} </b>.00 </DialogTitle>
+          <DialogContent dividers={scroll === 'paper'} style={{ padding: 1, margin: 0 }}>
+            <DialogContentText
+              id="scroll-dialog-description"
+              ref={descriptionElementRef}
+              tabIndex={-1}
+              style={{ padding: 0, margin: 0 }}
+            >
+              {isLogged &&
+
+                <TableContainer style={{ margin: 0 }}>
+                  <Table stickyHeader sx={{ minWidth: '95%' }} aria-label="spanning table" style={{ width: '95%' }}>
+                    <TableHead >
+                      <TableRow>
+                        <TableCell style={{ color: 'orange' }} align="center" colSpan={4}>
+                          Double click to remove
+                        </TableCell>
+
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>Desc</TableCell>
+                        <TableCell align="right">Qty.</TableCell>
+                        <TableCell align="right">Unit</TableCell>
+                        <TableCell align="right">Sum</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {
+
+                        cartItems.map((row) => (
+                          // <IconButton>
+                          <TableRow hover onDoubleClick={() => deleteFromCart(cartItems, row.productId)}>
+                            <TableCell>{row.productDesc}</TableCell>
+                            <TableCell align="right">{row.productQty}</TableCell>
+                            <TableCell align="right">{row.productPrice}</TableCell>
+                            <TableCell align="right">{row.productSum}</TableCell>
+                          </TableRow>
+                          // </IconButton>
+                        ))
+                      }
+
+                      <TableRow>
+                        <TableCell rowSpan={3} />
+                        <TableCell colSpan={2}>Discount</TableCell>
+                        <TableCell align="right">0%</TableCell>
+                      </TableRow>
+
+                      <TableRow>
+                        <TableCell colSpan={2}>Total</TableCell>
+                        <TableCell align="right">{cartTotal}</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              }
+
+              {!isLogged &&
+                <p>You need to log in first</p>
+              }
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button variant='contained' color='error' onClick={handleClose}>Cancel</Button>
+            <Button variant='contained' color='success' onClick={handleClose}>Checkout</Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+
+      {/* END CART MODAL */}
+
+
+
+
       <AppBar position="fixed">
         <Toolbar>
           <IconButton
@@ -187,6 +336,7 @@ export default function PrimarySearchAppBar() {
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
+
             ePlug
           </Typography>
           <Search>
@@ -209,25 +359,26 @@ export default function PrimarySearchAppBar() {
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
+              onClick={handleClickOpen('paper')}
             >
-              <Badge badgeContent={17} color="error">
+              <Badge badgeContent={numOfCartItems} color="error">
                 <Cart />
               </Badge>
             </IconButton>
-            
-              <IconButton
-                size="large"
-                edge="end"
-                aria-label="account of current user"
-                aria-controls={menuId}
-                aria-haspopup="true"
-                onClick={handleProfileMenuOpen}
-                color="inherit"
-              >
-                <LoginIcon />
-                
-              </IconButton>
-            
+
+            <IconButton
+              size="large"
+              edge="end"
+              aria-label="account of current user"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              onClick={handleProfileMenuOpen}
+              color="inherit"
+            >
+              <LoginIcon />
+
+            </IconButton>
+
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton

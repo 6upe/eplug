@@ -16,19 +16,9 @@ const useStyles = makeStyles(
     }
 );
 
-function Products() {
+function Products({isLogged, setcartItemsProduct, setClicked}) {
     const classes = useStyles();
-    const [products, setProducts] = useState(null);
 
-    useEffect(() => {
-      fetch('http://localhost:8000/products')
-        .then(res => {
-          return res.json();
-        })
-        .then(data => {
-          setProducts(data);
-        });
-    }, []);
 
     return (
         <div className={classes.products}>
@@ -36,8 +26,8 @@ function Products() {
             <Typography style={{ paddingTop: 20, fontWeight: 'bold', color: 'lightgray' }} variant='h4' color='text.secondary' align='center'>Our Products</Typography>
             
 
-            {products && <CategoryFAB products={products}></CategoryFAB>}
-
+            {<CategoryFAB setClicked={setClicked} setcartItemsProduct={setcartItemsProduct} isLogged = {isLogged}></CategoryFAB>}
+            
             <Divider variant="middle" />
         </div>
     )
